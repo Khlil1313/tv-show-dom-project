@@ -31,9 +31,17 @@
   
 }
 
+#topBar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+
+}
+
+
 #searchField {
   width: 200px;
   height: 40px;
-  margin: 20px 400px 20px;
   
 }

@@ -1,11 +1,6 @@
-//You can edit ALL of the code here
+
+const allShows = getAllShows();
 const allEpisodes = getAllEpisodes();
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-
-}
-
 const rootElem = document.getElementById("root");
 
 // this function will create a page to show the different eposides and seasons 
@@ -39,10 +34,6 @@ function makePageForEpisodes(episodeList) {
     
 }
 
-
-
-// window.onload = setup;
-
 function searchShow(query) {
   const url = `https://api.tvmaze.com/search/shows?q=${query}`;
   fetch(url)
@@ -54,11 +45,11 @@ function searchShow(query) {
       }
     })
     .then((jasonData) => {
-      console.log(jasonData)
+      console.log(jasonData);
       const results = jasonData.map((element) => ({
         name: element.show.name,
         image: element.show.image.medium,
-        summary: element.show.summary
+        summary: element.show.summary,
       }));
       renderResults(results);
       document.getElementById("errorMessage").innerHTML = "";
@@ -69,6 +60,41 @@ function searchShow(query) {
     });
 }
 
+
+// show the dropdown list of episodes
+function ListEpisode(allEpisodes) {
+  let episodeList = document.getElementById("seletEpisode");
+  let selectElement = document.createElement("select");
+  
+  allEpisodes.map((episode) => {
+    let optionElement = document.createElement("option")
+    optionElement.innerHTML = `${episode.name} - S${episode.season}E${episode.number}`;
+    selectElement.appendChild(optionElement);
+  })
+    return episodeList.appendChild(selectElement);
+}
+
+//This function will show the dorpdown list of all shows
+function ListOfShows (allShows) {
+  showList = document.getElementById("selectShow");
+  let selectElement = document.createElement("select")
+  let showId = ""
+  allShows.map((show) => {
+    let optionElement = document.createElement("option")
+    showId = document.createElement("div")
+    showId.innerText = `${show.id}`
+    optionElement.innerText = `${show.name}`
+    selectElement.appendChild(optionElement);
+  })
+  showList.appendChild(selectElement);
+  console.log(showId)
+  return showId
+}
+
+// this function to show the search results 
+
+
+// this function to show the search results on the website.
 function renderResults(results) {
   const list = document.getElementById("resultsList");
   list.innerHTML = "";
@@ -92,8 +118,9 @@ function renderResults(results) {
 let searchTimeoutToken = 0;
 
 window.onload = () => {
-  const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  ListEpisode(allEpisodes);
+  ListOfShows(allShows);
 
   const searchFieldElement = document.getElementById("searchField");
   searchFieldElement.onkeyup = (event) => {

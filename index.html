@@ -9,14 +9,23 @@
   </head>
 
   <body>
-    <input type="text" id="searchField" placeholder="Search a TV show">
-    <div id="errorMessage" style="color: red;"></div>
+   
+    <div id="topBar">
+      <div id="selectShow"></div>
+      <div id="seletEpisode"></div>
+      <input type="text" id="searchField" placeholder="Search a TV show">
+    </div>
     <ul id="resultsList"></ul>
+    <div id="errorMessage" style="color: red;"></div>
+    
     <div id="root"></div>
+    
     
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
+
+    <script src="shows.js"></script>
 
     <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>

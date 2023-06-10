@@ -1,3 +1,47 @@
 #root {
   color: red;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  
+}
+
+.divClass {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 600px;
+  height: 490px;
+  background-color: black;
+  color: white;
+}
+.divClass > h3 {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.divClass > span {
+  display: flex;
+  margin: 25px 20px;
+  align-content: center;
+  justify-content: center;
+}
+.divClass > img {
+  margin: 0 70px;
+  width: 355px
+  
+}
+
+#topBar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+
+}
+
+
+#searchField {
+  width: 200px;
+  height: 40px;
+  
 }

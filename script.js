@@ -1,25 +1,27 @@
-
 const allShows = getAllShows();
 const allEpisodes = getAllEpisodes();
 const rootElem = document.getElementById("root");
+let selectElement = document.createElement("select");
+let episodeList = document.getElementById("seletEpisode");
+episodeList.appendChild(selectElement);
+let selectedShowId = 0;
 
-// this function will create a page to show the different eposides and seasons 
+// this function will create a page to show the different eposides and seasons
 
 function makePageForEpisodes(episodeList) {
-  
-  episodeList.map(el => {
+  episodeList.map((el) => {
     let episodeDivContainer = document.createElement("div");
     let episodeTitleElement = document.createElement("h3");
     let episodeImageElement = document.createElement("img");
     let episodeSummary = document.createElement("span");
 
     episodeDivContainer.classList.add("divClass");
-    
-    if(el.season < 10) {
-      el.season = `0${el.season}`
-    } 
+
+    if (el.season < 10) {
+      el.season = `0${el.season}`;
+    }
     if (el.number < 10) {
-      el.number = `0${el.number}`
+      el.number = `0${el.number}`;
     }
 
     episodeTitleElement.innerHTML = `${el.name} - S${el.season}E${el.number}`;
@@ -30,8 +32,7 @@ function makePageForEpisodes(episodeList) {
     episodeDivContainer.appendChild(episodeTitleElement);
     episodeDivContainer.appendChild(episodeImageElement);
     episodeDivContainer.appendChild(episodeSummary);
-  })
-    
+  });
 }
 
 function searchShow(query) {
@@ -60,39 +61,57 @@ function searchShow(query) {
     });
 }
 
-
 // show the dropdown list of episodes
 function ListEpisode(allEpisodes) {
-  let episodeList = document.getElementById("seletEpisode");
-  let selectElement = document.createElement("select");
-  
   allEpisodes.map((episode) => {
-    let optionElement = document.createElement("option")
+    let optionElement = document.createElement("option");
     optionElement.innerHTML = `${episode.name} - S${episode.season}E${episode.number}`;
     selectElement.appendChild(optionElement);
-  })
-    return episodeList.appendChild(selectElement);
+  });
 }
 
 //This function will show the dorpdown list of all shows
-function ListOfShows (allShows) {
+function ListOfShows(allShows) {
   showList = document.getElementById("selectShow");
-  let selectElement = document.createElement("select")
-  let showId = ""
+  let selectElement = document.createElement("select");
+
+  selectElement.addEventListener("change", (event) => {
+    selectedShowId = event.target.value;
+    console.log(selectedShowId);
+
+    const theResultOfEpisode = // await showtheEpisodesList(selectedShowId);
+    console.log(theResultOfEpisode);
+    ListEpisode(theResultOfEpisode);
+  });
+
   allShows.map((show) => {
-    let optionElement = document.createElement("option")
-    showId = document.createElement("div")
-    showId.innerText = `${show.id}`
-    optionElement.innerText = `${show.name}`
+    let optionElement = document.createElement("option");
+    optionElement.setAttribute("value", show.id);
+    optionElement.innerText = `${show.name}`;
     selectElement.appendChild(optionElement);
-  })
+  });
   showList.appendChild(selectElement);
-  console.log(showId)
-  return showId
 }
 
-// this function to show the search results 
-
+// this function is using fetch to return the eposide list
+function showtheEpisodesList(selectedShowId) {
+  const url = `https://api.tvmaze.com/shows/${selectedShowId}/episodes`;
+  fetch(url)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 400) {
+        return response.json();
+      } else {
+        throw "HTTP ERROR";
+      }
+    })
+    .then((jsonData) => {
+      console.log(jsonData);
+      return jsonData;
+    })
+    .catch((error) => {
+      document.getElementById("errorMessage").innerHTML = error;
+    });
+}
 
 // this function to show the search results on the website.
 function renderResults(results) {
@@ -106,7 +125,7 @@ function renderResults(results) {
     let newResult = JSON.parse(JSON.stringify(result));
 
     elementName.innerText = newResult.name;
-    elementImage.src = `${newResult.image}`
+    elementImage.src = `${newResult.image}`;
     elementSummary.innerHTML = newResult.summary;
     list.appendChild(elementDiv);
     elementDiv.appendChild(elementName);
@@ -134,5 +153,3 @@ window.onload = () => {
     }, 250);
   };
 };
-
-
